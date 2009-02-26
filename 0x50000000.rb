@@ -1,3 +1,9 @@
+%w(rubygems sinatra).each {|l| require l}
+load "./lib/haml/lib/haml.rb"
+
+configure :production do
+end
+
 get "/" do
  @magic = 0x50000000
  haml :index, :layout => !request.xhr? ? :layout : false
@@ -12,6 +18,14 @@ __END__
     %style * {font-family: 'Lucida Grande', Helvetica, sans-serif;padding:10px;margin:0px;text-align:center;} h2 {font-size:300px;}
     %script{:src=>"http://ajax.googleapis.com/ajax/libs/jquery/1.3.1/jquery.min.js"}
     %script $(getTime); function getTime() { $("body").load("/");setTimeout(getTime,1000);};
+    %script
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    %script
+      try {
+      var pageTracker = _gat._getTracker("UA-658908-10");
+      pageTracker._trackPageview();
+      } catch(err) {}
   %body
     = yield
 @@ index
